@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Book</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-utensils"></i>
+            Recipe Book
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="Search for recipes..." />
+            <button><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="filters">
+        <button class="filter-btn active">All Recipes</button>
+        <button class="filter-btn">Main Course</button>
+        <button class="filter-btn">Dessert</button>
+        <button class="filter-btn">Salad</button>
+        <button class="filter-btn">Quick Meals</button>
+      </div>
+
+      <div class="recipes-grid">
+        <% for (const recipe of recipes) {%>
+        <div class="recipe-card">
+          <div class="recipe-image">
+            <img src="<%= recipe.image %>" alt="<%= recipe.title %>" />
+          </div>
+          <div class="recipe-content">
+            <h3 class="recipe-title"><%= recipe.title %></h3>
+            <div class="recipe-meta">
+              <span
+                ><i class="far fa-clock"></i> <%= recipe.cookingTime %></span
+              >
+              <span><%= recipe.category %></span>
+            </div>
+            <p class="recipe-description"><%= recipe.description %></p>
+            <div class="recipe-actions">
+              <a href="/recipes/<%= recipe.id %>" class="btn btn-view"
+                >View Recipe</a
+              >
+              <a href="/recipes/<%= recipe.id %>/edit" class="btn btn-edit"
+                >Edit</a
+              >
+              <form
+                method="POST"
+                action="/recipes/<%= recipe.id %>?_method=DELETE"
+                style="display: inline"
+              >
+                <button type="submit" class="btn btn-delete">Delete</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <%} %>
+      </div>
+    </div>
+
+    <a href="/recipes/new" class="add-recipe">
+      <i class="fas fa-plus"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Recipe Book. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      document.querySelectorAll(".filter-btn").forEach((button) => {
+        button.addEventListener("click", function () {
+          document.querySelectorAll(".filter-btn").forEach((btn) => {
+            btn.classList.remove("active");
+          });
+          this.classList.add("active");
+
+          console.log("Filtering by: " + this.textContent);
+        });
+      });
+
+      const searchInput = document.querySelector(".search-bar input");
+      searchInput.addEventListener("keyup", function () {
+        console.log("Searching for: " + this.value);
+      });
+    </script>
+  </body>
+</html>

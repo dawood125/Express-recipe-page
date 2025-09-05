@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 - Page Not Found | Recipe Book</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+      /* Additional styles for 404 page */
+      .error-container {
+        min-height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        color: #2d3436;
+      }
+      .error-code {
+        font-size: 6rem;
+        font-weight: 700;
+        color: #e52e71;
+        margin-bottom: 20px;
+      }
+      .error-message {
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+      }
+      .btn-home {
+        background: #0984e3;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn-home:hover {
+        background: #0077c6;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-utensils"></i>
+            <a href="/recipes" style="color: white; text-decoration: none;">Recipe Book</a>
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="Search for recipes..." disabled />
+            <button disabled><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container error-container">
+      <div class="error-code">404</div>
+      <div class="error-message">
+        Oops! The page you are looking for does not exist.
+      </div>
+      <a href="/recipes" class="btn-home">
+        <i class="fas fa-home"></i> Back to Home
+      </a>
+    </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Recipe Book. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

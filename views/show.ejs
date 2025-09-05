@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe Details - Recipe Book</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="header-content">
+          <div class="logo">
+            <i class="fas fa-utensils"></i>
+            Recipe Book
+          </div>
+          <div class="search-bar">
+            <input type="text" placeholder="Search for recipes..." />
+            <button><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="container">
+      <a href="/recipes" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Recipes
+      </a>
+
+      <div class="recipe-detail">
+        <div class="recipe-image">
+          <img src="<%= recipe.image %>" alt="<%= recipe.title %>" />
+        </div>
+
+        <div class="recipe-info">
+          <h1 class="recipe-title"><%= recipe.title %></h1>
+
+          <div class="recipe-meta">
+            <div class="meta-item">
+              <i class="far fa-clock"></i>
+              <span><%= recipe.cookingTime %></span>
+            </div>
+            <div class="meta-item">
+              <i class="fas fa-utensils"></i>
+              <span><%= recipe.category %></span>
+            </div>
+          </div>
+
+          <p class="description"><%= recipe.description %></p>
+
+          <div class="ingredients">
+            <h2 class="section-title">
+              <i class="fas fa-list"></i>
+              Ingredients
+            </h2>
+            <ul class="ingredients-list">
+              <% recipe.ingredients.forEach(ingredient => { %>
+              <li><%= ingredient %></li>
+              <% }) %>
+            </ul>
+          </div>
+
+          <div class="instructions">
+            <h2 class="section-title">
+              <i class="fas fa-mortar-pestle"></i>
+              Instructions
+            </h2>
+            <ol class="instructions-list">
+              <% recipe.instructions.forEach(instruction => {%>
+              <li><%= instruction %></li>
+              <% }); %>
+            </ol>
+          </div>
+
+          <div class="action-buttons">
+            <a href="/recipes/<%= recipe.id %>/edit" class="btn btn-edit">
+              <i class="fas fa-edit"></i> Edit Recipe
+            </a>
+            <form
+              method="POST"
+              action="/recipes/<%= recipe.id %>?_method=DELETE"
+              style="display: inline"
+            >
+              <button type="submit" class="btn btn-delete">
+                <i class="fas fa-trash"></i> Delete Recipe
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 Recipe Book. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Search functionality for demonstration
+      const searchInput = document.querySelector(".search-bar input");
+      searchInput.addEventListener("keyup", function () {
+        console.log("Searching for: " + this.value);
+      });
+    </script>
+  </body>
+</html>

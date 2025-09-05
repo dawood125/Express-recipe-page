@@ -1,0 +1,92 @@
+1. Initial Recipe Data Array
+
+let recipes = [
+  {
+    id: uuidv4(),
+    title: "Chicken Biryani",
+    ingredients: "Basmati rice, chicken, yogurt, onions, spices, saffron",
+    instructions: "Marinate chicken, cook rice separately, layer and cook together",
+    cookingTime: "60 minutes",
+    category: "Main Course"
+  },
+  {
+    id: uuidv4(),
+    title: "Chocolate Cake",
+    ingredients: "Flour, cocoa powder, sugar, eggs, butter, milk",
+    instructions: "Mix dry ingredients, add wet ingredients, bake at 350°F",
+    cookingTime: "45 minutes",
+    category: "Dessert"
+  },
+  {
+    id: uuidv4(),
+    title: "Caesar Salad",
+    ingredients: "Lettuce, croutons, parmesan cheese, caesar dressing",
+    instructions: "Chop lettuce, add toppings, toss with dressing",
+    cookingTime: "10 minutes",
+    category: "Salad"
+  }
+];
+
+2. Routes You Need to Build
+
+GET /recipes           - Show all recipes (index page)
+GET /recipes/new       - Show form to add new recipe
+POST /recipes          - Create new recipe
+GET /recipes/:id       - Show single recipe details
+GET /recipes/:id/edit  - Show edit form for recipe
+PATCH /recipes/:id     - Update existing recipe
+DELETE /recipes/:id    - Delete recipe
+
+3. Step-by-Step Building Process
+Step 1: Basic Setup
+
+Copy your express setup from the Quora project
+Change the array from posts to recipes
+Update the port message to mention "Recipe Book"
+
+Step 2: Index Route (Show All Recipes)
+
+Create GET /recipes route
+Make it render an index.ejs file
+Pass the recipes array to the template
+
+Questions for you to think about:
+
+How did you pass the posts array in your Quora project?
+What should you change in the render statement?
+
+Step 3: Create the Index View
+
+Create views/index.ejs
+Display all recipes in a nice format
+Show: title, cooking time, category
+Add buttons for "View Details", "Edit", "Delete" for each recipe
+Add a "Add New Recipe" button
+
+Challenge: How will you loop through the recipes in EJS?
+Step 4: New Recipe Route & Form
+
+Create GET /recipes/new route
+Create views/new.ejs with a form
+Form fields: title, ingredients, instructions, cookingTime, category
+
+Think about:
+
+What method should the form use?
+Where should it submit to?
+
+Step 5: Create Recipe (POST)
+
+Create POST /recipes route
+Extract data from req.body
+Generate new ID with uuidv4()
+Push to recipes array
+Redirect to recipes list
+
+Questions:
+
+How did you do this in your Quora project?
+What needs to change for recipe data?
+
+Would you like to start with Step 1 and 2? Let me know when you complete the basic setup and index route, then we'll move to the next steps!
+Remember: Take it one step at a time. Test each route before moving to the next one!
