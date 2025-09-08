@@ -37,7 +37,7 @@
 
       <div class="recipes-grid">
         <% for (const recipe of recipes) {%>
-        <div class="recipe-card">
+        <div class="recipe-card" data-category="<%= recipe.category %>">
           <div class="recipe-image">
             <img src="<%= recipe.image %>" alt="<%= recipe.title %>" />
           </div>
@@ -89,8 +89,21 @@
             btn.classList.remove("active");
           });
           this.classList.add("active");
+          let filterText = this.textContent.trim();
+          console.log("Filter clicked:", filterText);
 
-          console.log("Filtering by: " + this.textContent);
+          let recipeCards = document.querySelectorAll(".recipe-card");
+          recipeCards.forEach((card) => {
+            let cardCategory = card.dataset.category;
+            console.log("Card category:", cardCategory, "Filter:", filterText);
+            if (filterText === "All Recipes") {
+              card.style.display = "block";
+            } else if (cardCategory === filterText) {
+              card.style.display = "block";
+            } else {
+              card.style.display = "none";
+            }
+          });
         });
       });
 
