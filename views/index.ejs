@@ -75,7 +75,7 @@
       <i class="fas fa-plus"></i>
     </a>
 
-    <!-- Footer -->
+
     <footer>
       <div class="container">
         <p>&copy; 2025 Recipe Book. All rights reserved.</p>
@@ -83,34 +83,173 @@
     </footer>
 
     <script>
-      document.querySelectorAll(".filter-btn").forEach((button) => {
-        button.addEventListener("click", function () {
-          document.querySelectorAll(".filter-btn").forEach((btn) => {
-            btn.classList.remove("active");
-          });
-          this.classList.add("active");
-          let filterText = this.textContent.trim();
-          console.log("Filter clicked:", filterText);
+      // Global state variables
+      let currentSearchTerm = "";
+      let currentCategory = "All Recipes";
 
-          let recipeCards = document.querySelectorAll(".recipe-card");
-          recipeCards.forEach((card) => {
-            let cardCategory = card.dataset.category;
-            console.log("Card category:", cardCategory, "Filter:", filterText);
-            if (filterText === "All Recipes") {
-              card.style.display = "block";
-            } else if (cardCategory === filterText) {
-              card.style.display = "block";
-            } else {
-              card.style.display = "none";
-            }
+      // Initialize when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeFilters();
+        initializeSearch();
+      });
+
+      // Initialize category filter buttons
+      function initializeFilters() {
+        document.querySelectorAll(".filter-btn").forEach((button) => {
+          button.addEventListener("click", function () {
+            // Update active button state
+            document.querySelectorAll(".filter-btn").forEach((btn) => {
+              btn.classList.remove("active");
+            });
+            this.classList.add("active");
+
+            // Update current category
+            currentCategory = this.textContent.trim();
+            console.log("Filter clicked:", currentCategory);
+
+            // Apply combined filters
+            applyAllFilters();
           });
         });
-      });
+      }
 
-      const searchInput = document.querySelector(".search-bar input");
-      searchInput.addEventListener("keyup", function () {
-        console.log("Searching for: " + this.value);
-      });
+      // Initialize search functionality
+      function initializeSearch() {
+        const searchInput = document.querySelector(".search-bar input");
+
+        // Use input event for real-time search
+        searchInput.addEventListener("input", function () {
+          currentSearchTerm = this.value.toLowerCase().trim();
+          console.log("Searching for:", currentSearchTerm);
+
+          // Apply combined filters
+          applyAllFilters();
+        });
+
+        // Optional: Handle Enter key for search
+        searchInput.addEventListener("keypress", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            applyAllFilters();
+          }
+        });
+      }
+
+      // Main filter function that combines both search and category filtering
+      function applyAllFilters() {
+        const recipeCards = document.querySelectorAll(".recipe-card");
+        let visibleCount = 0;
+
+        recipeCards.forEach((card) => {
+          const matchesSearch = checkSearchMatch(card);
+          const matchesCategory = checkCategoryMatch(card);
+
+          // Show card only if it matches both search and category
+          if (matchesSearch && matchesCategory) {
+            card.style.display = "block";
+            visibleCount++;
+          } else {
+            card.style.display = "none";
+          }
+        });
+
+        // Optional: Handle no results
+        handleNoResults(visibleCount);
+
+        console.log(`Showing ${visibleCount} recipes`);
+      }
+
+      // Check if card matches search term
+      function checkSearchMatch(card) {
+        if (currentSearchTerm === "") return true;
+
+        try {
+          const title =
+            card.querySelector(".recipe-title")?.textContent?.toLowerCase() ||
+            "";
+          const category = card.dataset.category?.toLowerCase() || "";
+          const description =
+            card
+              .querySelector(".recipe-description")
+              ?.textContent?.toLowerCase() || "";
+
+          const searchableContent = `${title} ${category} ${description}`;
+          return searchableContent.includes(currentSearchTerm);
+        } catch (error) {
+          console.warn("Error checking search match:", error);
+          return false;
+        }
+      }
+
+      // Check if card matches category filter
+      function checkCategoryMatch(card) {
+        if (currentCategory === "All Recipes") return true;
+
+        const cardCategory = card.dataset.category;
+        return cardCategory === currentCategory;
+      }
+
+      // Handle no search results
+      function handleNoResults(visibleCount) {
+        // Remove existing no-results message
+        const existingMessage = document.querySelector(".no-results-message");
+        if (existingMessage) {
+          existingMessage.remove();
+        }
+
+        // Show no results message if needed
+        if (visibleCount === 0) {
+          const recipesGrid = document.querySelector(".recipes-grid");
+          const noResultsDiv = document.createElement("div");
+          noResultsDiv.className = "no-results-message";
+          noResultsDiv.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: #666;">
+                <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.3;"></i>
+                <h3>No recipes found</h3>
+                <p>Try adjusting your search or filter criteria</p>
+                <button onclick="clearAllFilters()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                    Clear All Filters
+                </button>
+            </div>
+        `;
+          recipesGrid.appendChild(noResultsDiv);
+        }
+      }
+
+      // Clear all filters and search
+      function clearAllFilters() {
+        // Clear search input
+        const searchInput = document.querySelector(".search-bar input");
+        if (searchInput) searchInput.value = "";
+
+        // Reset to "All Recipes" filter
+        document.querySelectorAll(".filter-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        document.querySelector(".filter-btn").classList.add("active");
+
+        // Reset global state
+        currentSearchTerm = "";
+        currentCategory = "All Recipes";
+
+        // Apply filters (will show all recipes)
+        applyAllFilters();
+      }
+
+      // Optional: Debounced search for better performance
+      function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+    
     </script>
   </body>
 </html>

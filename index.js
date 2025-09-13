@@ -21,6 +21,10 @@ async function main() {
     database: "recipes_db",
   });
 
+  app.get("/",(req,res)=>{
+    res.send("This is home page of recipe website.");
+  })
+
   app.get("/recipes", async (req, res) => {
     try {
       const [rows] = await connection.query("SELECT * FROM recipes");
