@@ -22,7 +22,7 @@ async function main() {
   });
 
   app.get("/",(req,res)=>{
-    res.send("This is home page of recipe website.");
+    res.render("home.ejs");
   })
 
   app.get("/recipes", async (req, res) => {
